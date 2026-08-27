@@ -17,6 +17,7 @@
   --green:#2f6b3a; --green-light:#e8f1e9;
   --blue:#1f4d7a; --blue-light:#e6eef7;
   --violet:#6b3982; --violet-light:#f0e6f5;
+  --sarcelle:#12666e; --sarcelle-light:#e3f0f1;
   --shadow-sm:0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 14px rgba(0,0,0,.08);
   --serif:'Cormorant Garamond',Georgia,serif;
@@ -48,6 +49,7 @@ p.section-sous{color:var(--ink-muted);font-size:13px;margin-bottom:18px}
 .carte .etiq{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
 .carte h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:5px 0 5px;line-height:1.15}
 .carte p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.carte .cle{display:inline-block;margin-top:6px;font-size:11.5px;color:var(--ink-muted);border-left:2px solid var(--line-strong);padding-left:7px}
 .carte .fleche{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:var(--accent)}
 .carte.action{grid-column:1/-1;background:linear-gradient(135deg,var(--accent-light) 0%,var(--paper) 72%)}
 
@@ -113,6 +115,13 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
     <span class="etiq">Référence</span>
     <h3>Tarif Professionnel</h3>
     <p>Le tarif VINOM en vigueur, avec recherche et filtres. La base de toute proposition client.</p>
+    <span class="fleche">Ouvrir →</span>
+  </a>
+
+  <a class="carte" style="--accent:var(--sarcelle)" href="https://sfrbt1009862.sharepoint.com/:f:/g/vinom/IgAHelnIjNhsRJ0-mHeGNC1GAR13o2LHTmBHlVbwvICA1-I?e=7EANcD" target="_blank" rel="noopener">
+    <span class="etiq">SharePoint</span>
+    <h3>Cartes VINOM</h3>
+    <p>Les cartes des vins par établissement, à jour. <span class="cle">Connexion Microsoft 365 requise</span></p>
     <span class="fleche">Ouvrir →</span>
   </a>
 
@@ -193,7 +202,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
 </p>
 
 <footer>
-  Portail VINOM · v1.0 · 3 août 2026 — Aqua Architect Advisory pour VINOM SAS, 13 bd des Batignolles, 75008 Paris.<br>
+  Portail VINOM · v1.1 · 26 août 2026 — Aqua Architect Advisory pour VINOM SAS, 13 bd des Batignolles, 75008 Paris.<br>
   Une page manque, un lien est cassé, un document est à ajouter ? Écrivez à <a href="mailto:a.durand@vinom.fr" style="color:var(--blue)">a.durand@vinom.fr</a>.<br>
   Données lunaires précalculées jusqu'au 1<sup>er</sup> mars 2028.
 </footer>
