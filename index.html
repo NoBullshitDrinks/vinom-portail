@@ -91,10 +91,46 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
 }
 @media print{ .carte:hover{transform:none} body{background:#fff} }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+
+/* ===== Écran de garde (même esprit que la page tarif) ===== */
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:linear-gradient(160deg,#1F3A56 0%,#1F3A56 35%,#5C1A2B 75%,#7B2233 100%)}
+#gate .gate-card{background:#FBF9F5;padding:48px 40px;max-width:420px;width:100%;text-align:center;border-radius:4px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35)}
+#gate .gate-brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:56px;letter-spacing:.2em;color:#1F3A56;font-weight:500;margin:0 0 4px}
+#gate .gate-subtitle{font-size:13px;color:#A98B45;letter-spacing:.25em;text-transform:uppercase;font-weight:500;margin:0}
+#gate .gate-rule{width:60px;height:1px;background:#A98B45;opacity:.5;margin:24px auto}
+#gate .gate-text{font-size:14px;color:#4A4A4A;margin:0 0 20px;line-height:1.5}
+#gate input{width:100%;box-sizing:border-box;padding:12px 14px;font-size:15px;border:1px solid #D6CFC2;
+  border-radius:3px;background:#fff;margin-bottom:12px}
+#gate input:focus{outline:none;border-color:#1F3A56}
+#gate button{width:100%;padding:12px 14px;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:#fff;background:#1F3A56;border:0;border-radius:3px;cursor:pointer}
+#gate button:hover{background:#2B4E71}
+#gate .gate-error{color:#A0202F;font-size:13px;margin:10px 0 0}
+#gate .gate-footer{font-size:12px;color:#7A7466;margin:22px 0 0;line-height:1.6}
+#gate .gate-footer a{color:#1F3A56}
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- =========== ÉCRAN DE GARDE =========== -->
+<div id="gate">
+  <div class="gate-card">
+    <p class="gate-brand">VINOM</p>
+    <p class="gate-subtitle">Espace commercial</p>
+    <div class="gate-rule"></div>
+    <p class="gate-text">Accès réservé à l'équipe et aux agents VINOM.</p>
+    <form id="gate-form" autocomplete="off">
+      <input type="password" id="gate-pwd" placeholder="Code d'accès" autocomplete="off">
+      <button type="submit">Entrer</button>
+    </form>
+    <p id="gate-error" class="gate-error" hidden>Code incorrect.</p>
+    <p class="gate-footer">Code à demander à votre référent VINOM<br>ou à <a href="mailto:vins@vinom.fr">vins@vinom.fr</a></p>
+  </div>
+</div>
+
+<div class="wrap" id="wrap" hidden>
 
 <header class="top">
   <p class="eyebrow">VINOM · espace commercial</p>
@@ -208,6 +244,38 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
 </footer>
 
 </div>
+<script>
+/* ===== Écran de garde — code DISTINCT de celui du tarif ===== */
+const PORTAIL_CODE = 'portail2026';          // à changer ici, et ici seulement
+const PORTAIL_KEY  = 'vinom_portail_unlocked';
+
+function ouvrirPortail(){
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('wrap').hidden = false;
+}
+(function verifierAcces(){
+  if (sessionStorage.getItem(PORTAIL_KEY) === 'yes') { ouvrirPortail(); return; }
+  const code = new URLSearchParams(location.search).get('code');
+  if (code === PORTAIL_CODE) {
+    sessionStorage.setItem(PORTAIL_KEY,'yes');
+    const u = new URL(location); u.searchParams.delete('code');
+    history.replaceState({}, '', u);
+    ouvrirPortail(); return;
+  }
+  document.getElementById('gate-form').addEventListener('submit', e => {
+    e.preventDefault();
+    if (document.getElementById('gate-pwd').value.trim() === PORTAIL_CODE) {
+      sessionStorage.setItem(PORTAIL_KEY,'yes');
+      ouvrirPortail();
+    } else {
+      document.getElementById('gate-error').hidden = false;
+      document.getElementById('gate-pwd').select();
+    }
+  });
+  document.getElementById('gate-pwd').focus();
+})();
+</script>
+
 <script>
 const LUN = {"t":[["2026-07-01T21:36","Cap"],["2026-07-04T04:21","Aqr"],["2026-07-06T02:21","Psc"],["2026-07-08T20:53","Ari"],["2026-07-10T14:31","Tau"],["2026-07-13T01:35","Gem"],["2026-07-14T21:57","Cnc"],["2026-07-16T06:40","Leo"],["2026-07-18T20:28","Vir"],["2026-07-22T07:36","Lib"],["2026-07-24T05:58","Sco"],["2026-07-24T19:16","Oph"],["2026-07-26T08:53","Sgr"],["2026-07-29T03:49","Cap"],["2026-07-31T10:07","Aqr"],["2026-08-02T07:51","Psc"],["2026-08-05T02:56","Ari"],["2026-08-06T21:38","Tau"],["2026-08-09T10:36","Gem"],["2026-08-11T07:57","Cnc"],["2026-08-12T16:55","Leo"],["2026-08-15T06:04","Vir"],["2026-08-18T15:30","Lib"],["2026-08-20T13:21","Sco"],["2026-08-21T02:34","Oph"],["2026-08-22T16:08","Sgr"],["2026-08-25T11:05","Cap"],["2026-08-27T17:00","Aqr"],["2026-08-29T14:05","Psc"],["2026-09-01T08:22","Ari"],["2026-09-03T03:11","Tau"],["2026-09-05T17:22","Gem"],["2026-09-07T16:04","Cnc"],["2026-09-09T01:51","Leo"],["2026-09-11T15:37","Vir"],["2026-09-15T00:14","Lib"],["2026-09-16T21:30","Sco"],["2026-09-17T10:37","Oph"],["2026-09-19T00:03","Sgr"],["2026-09-21T19:18","Cap"],["2026-09-24T01:21","Aqr"],["2026-09-25T22:04","Psc"],["2026-09-28T15:03","Ari"],["2026-09-30T08:59","Tau"],["2026-10-02T22:46","Gem"],["2026-10-04T22:06","Cnc"],["2026-10-06T08:40","Leo"],["2026-10-08T23:47","Vir"],["2026-10-12T08:49","Lib"],["2026-10-14T05:47","Sco"],["2026-10-14T18:49","Oph"],["2026-10-16T08:06","Sgr"],["2026-10-19T03:44","Cap"],["2026-10-21T10:30","Aqr"],["2026-10-23T07:35","Psc"],["2026-10-25T23:00","Ari"],["2026-10-27T15:53","Tau"],["2026-10-30T03:56","Gem"],["2026-11-01T02:31","Cnc"],["2026-11-02T13:04","Leo"],["2026-11-05T05:04","Vir"],["2026-11-08T15:16","Lib"],["2026-11-10T12:24","Sco"],["2026-11-11T01:24","Oph"],["2026-11-12T14:37","Sgr"],["2026-11-15T10:28","Cap"],["2026-11-17T18:09","Aqr"],["2026-11-19T16:15","Psc"],["2026-11-22T09:35","Ari"],["2026-11-24T02:12","Tau"],["2026-11-26T12:40","Gem"],["2026-11-28T09:39","Cnc"],["2026-11-29T19:13","Leo"],["2026-12-02T10:28","Vir"],["2026-12-05T21:23","Lib"],["2026-12-07T18:56","Sco"],["2026-12-08T08:01","Oph"],["2026-12-09T21:18","Sgr"],["2026-12-12T17:10","Cap"],["2026-12-15T01:21","Aqr"],["2026-12-17T00:31","Psc"],["2026-12-19T19:53","Ari"],["2026-12-21T13:23","Tau"],["2026-12-23T23:47","Gem"],["2026-12-25T19:36","Cnc"],["2026-12-27T03:58","Leo"],["2026-12-29T17:07","Vir"],["2027-01-02T03:03","Lib"],["2027-01-04T00:47","Sco"],["2027-01-04T13:58","Oph"],["2027-01-06T03:26","Sgr"],["2027-01-08T23:15","Cap"],["2027-01-11T07:20","Aqr"],["2027-01-13T06:54","Psc"],["2027-01-16T04:03","Ari"],["2027-01-17T23:07","Tau"],["2027-01-20T11:10","Gem"],["2027-01-22T07:11","Cnc"],["2027-01-23T15:01","Leo"],["2027-01-26T02:14","Vir"],["2027-01-29T09:49","Lib"],["2027-01-31T07:03","Sco"],["2027-01-31T20:11","Oph"],["2027-02-02T09:41","Sgr"],["2027-02-05T05:33","Cap"],["2027-02-07T13:19","Aqr"],["2027-02-09T12:32","Psc"],["2027-02-12T10:02","Ari"],["2027-02-14T06:12","Tau"],["2027-02-16T20:30","Gem"],["2027-02-18T17:53","Cnc"],["2027-02-20T02:13","Leo"],["2027-02-22T12:59","Vir"],["2027-02-25T18:26","Lib"],["2027-02-27T14:39","Sco"],["2027-02-28T03:35","Oph"],["2027-03-01T16:45","Sgr"],["2027-03-04T12:36","Cap"],["2027-03-06T20:14","Aqr"],["2027-03-08T18:59","Psc"],["2027-03-11T15:35","Ari"],["2027-03-13T11:38","Tau"],["2027-03-16T03:04","Gem"],["2027-03-18T01:57","Cnc"],["2027-03-19T11:21","Leo"],["2027-03-21T23:14","Vir"],["2027-03-25T04:05","Lib"],["2027-03-26T23:27","Sco"],["2027-03-27T12:08","Oph"],["2027-03-29T01:47","Sgr"],["2027-03-31T21:24","Cap"],["2027-04-03T05:13","Aqr"],["2027-04-05T03:53","Psc"],["2027-04-07T23:31","Ari"],["2027-04-09T18:41","Tau"],["2027-04-12T09:25","Gem"],["2027-04-14T08:44","Cnc"],["2027-04-15T18:52","Leo"],["2027-04-18T08:21","Vir"],["2027-04-21T14:10","Lib"],["2027-04-23T09:20","Sco"],["2027-04-23T21:54","Oph"],["2027-04-25T10:10","Sgr"],["2027-04-28T05:28","Cap"],["2027-04-30T13:38","Aqr"],["2027-05-02T12:42","Psc"],["2027-05-05T08:15","Ari"],["2027-05-07T02:41","Tau"],["2027-05-09T15:51","Gem"],["2027-05-11T14:16","Cnc"],["2027-05-13T00:13","Leo"],["2027-05-15T14:22","Vir"],["2027-05-18T21:37","Lib"],["2027-05-20T17:10","Sco"],["2027-05-21T05:47","Oph"],["2027-05-22T18:02","Sgr"],["2027-05-25T13:10","Cap"],["2027-05-27T21:38","Aqr"],["2027-05-29T21:24","Psc"],["2027-06-01T17:55","Ari"],["2027-06-03T12:23","Tau"],["2027-06-06T00:30","Gem"],["2027-06-07T21:34","Cnc"],["2027-06-09T06:34","Leo"],["2027-06-11T19:47","Vir"],["2027-06-15T03:32","Lib"],["2027-06-16T23:39","Sco"],["2027-06-17T12:23","Oph"],["2027-06-19T00:53","Sgr"],["2027-06-21T20:05","Cap"],["2027-06-24T04:42","Aqr"],["2027-06-26T05:02","Psc"],["2027-06-29T03:06","Ari"],["2027-06-30T22:27","Tau"],["2027-07-03T10:49","Gem"],["2027-07-05T07:05","Cnc"],["2027-07-06T15:08","Leo"],["2027-07-09T02:29","Vir"],["2027-07-12T09:06","Lib"],["2027-07-14T05:19","Sco"],["2027-07-14T18:09","Oph"],["2027-07-16T06:54","Sgr"],["2027-07-19T02:21","Cap"],["2027-07-21T10:56","Aqr"],["2027-07-23T11:27","Psc"],["2027-07-26T10:45","Ari"],["2027-07-28T07:23","Tau"],["2027-07-30T21:16","Gem"],["2027-08-01T17:51","Cnc"],["2027-08-03T01:32","Leo"],["2027-08-05T11:19","Vir"],["2027-08-08T15:44","Lib"],["2027-08-10T11:21","Sco"],["2027-08-11T00:06","Oph"],["2027-08-12T12:49","Sgr"],["2027-08-15T08:25","Cap"],["2027-08-17T16:55","Aqr"],["2027-08-19T17:14","Psc"],["2027-08-22T16:48","Ari"],["2027-08-24T14:21","Tau"],["2027-08-27T06:14","Gem"],["2027-08-29T04:05","Cnc"],["2027-08-30T12:16","Leo"],["2027-09-01T21:42","Vir"],["2027-09-05T00:10","Lib"],["2027-09-06T18:43","Sco"],["2027-09-07T07:14","Oph"],["2027-09-08T19:29","Sgr"],["2027-09-11T14:55","Cap"],["2027-09-13T23:23","Aqr"],["2027-09-15T23:24","Psc"],["2027-09-18T22:21","Ari"],["2027-09-20T19:54","Tau"],["2027-09-23T12:57","Gem"],["2027-09-25T12:18","Cnc"],["2027-09-26T21:31","Leo"],["2027-09-29T08:03","Vir"],["2027-10-02T09:56","Lib"],["2027-10-04T03:34","Sco"],["2027-10-04T15:49","Oph"],["2027-10-06T03:23","Sgr"],["2027-10-08T22:15","Cap"],["2027-10-11T06:45","Aqr"],["2027-10-13T06:43","Psc"],["2027-10-16T04:55","Ari"],["2027-10-18T01:44","Tau"],["2027-10-20T18:20","Gem"],["2027-10-22T18:17","Cnc"],["2027-10-24T04:22","Leo"],["2027-10-26T16:40","Vir"],["2027-10-29T19:37","Lib"],["2027-10-31T12:01","Sco"],["2027-11-01T00:07","Oph"],["2027-11-02T11:10","Sgr"],["2027-11-05T05:19","Cap"],["2027-11-07T13:51","Aqr"],["2027-11-09T14:08","Psc"],["2027-11-12T12:17","Ari"],["2027-11-14T08:26","Tau"],["2027-11-16T23:33","Gem"],["2027-11-18T22:43","Cnc"],["2027-11-20T08:43","Leo"],["2027-11-22T21:57","Vir"],["2027-11-26T02:42","Lib"],["2027-11-27T20:38","Sco"],["2027-11-28T08:48","Oph"],["2027-11-29T19:50","Sgr"],["2027-12-02T13:32","Cap"],["2027-12-04T22:01","Aqr"],["2027-12-06T22:46","Psc"],["2027-12-09T21:54","Ari"],["2027-12-11T18:11","Tau"],["2027-12-14T08:17","Gem"],["2027-12-16T06:01","Cnc"],["2027-12-17T15:02","Leo"],["2027-12-20T03:19","Vir"],["2027-12-23T08:47","Lib"],["2027-12-25T03:31","Sco"],["2027-12-25T15:53","Oph"],["2027-12-27T03:20","Sgr"],["2027-12-29T21:10","Cap"],["2028-01-01T05:34","Aqr"],["2028-01-03T06:38","Psc"],["2028-01-06T07:12","Ari"],["2028-01-08T04:31","Tau"],["2028-01-10T19:07","Gem"],["2028-01-12T16:08","Cnc"],["2028-01-14T00:07","Leo"],["2028-01-16T10:15","Vir"],["2028-01-19T14:16","Lib"],["2028-01-21T09:06","Sco"],["2028-01-21T21:35","Oph"],["2028-01-23T09:26","Sgr"],["2028-01-26T03:50","Cap"],["2028-01-28T12:15","Aqr"],["2028-01-30T13:20","Psc"],["2028-02-02T14:51","Ari"],["2028-02-04T13:29","Tau"],["2028-02-07T06:00","Gem"],["2028-02-09T03:37","Cnc"],["2028-02-10T11:24","Leo"],["2028-02-12T19:58","Vir"],["2028-02-15T21:16","Lib"],["2028-02-17T15:09","Sco"],["2028-02-18T03:28","Oph"],["2028-02-19T15:10","Sgr"],["2028-02-22T09:50","Cap"],["2028-02-24T18:25","Aqr"],["2028-02-26T19:23","Psc"],["2028-02-29T20:54","Ari"]],"c0":"Sgr","d0":"2026-07-01T02:00","d1":"2028-03-01T01:00","n":[["2026-07-04T09:50","ascendant"],["2026-07-17T02:28","descendant"],["2026-07-31T13:53","ascendant"],["2026-08-13T11:56","descendant"],["2026-08-27T20:45","ascendant"],["2026-09-09T21:17","descendant"],["2026-09-24T04:39","ascendant"],["2026-10-07T03:19","descendant"],["2026-10-21T10:52","ascendant"],["2026-11-03T04:02","descendant"],["2026-11-17T12:48","ascendant"],["2026-11-30T04:33","descendant"],["2026-12-14T14:02","ascendant"],["2026-12-27T08:55","descendant"],["2027-01-10T16:57","ascendant"],["2027-01-23T18:26","descendant"],["2027-02-06T22:43","ascendant"],["2027-02-20T05:40","descendant"],["2027-03-06T05:40","ascendant"],["2027-03-19T14:06","descendant"],["2027-04-02T12:16","ascendant"],["2027-04-15T18:31","descendant"],["2027-04-29T15:23","ascendant"],["2027-05-12T19:03","descendant"],["2027-05-26T17:20","ascendant"],["2027-06-08T21:23","descendant"],["2027-06-22T20:25","ascendant"],["2027-07-06T04:15","descendant"],["2027-07-20T01:33","ascendant"],["2027-08-02T14:34","descendant"],["2027-08-16T07:48","ascendant"],["2027-08-30T01:01","descendant"],["2027-09-12T13:25","ascendant"],["2027-09-26T08:03","descendant"],["2027-10-09T16:57","ascendant"],["2027-10-23T10:14","descendant"],["2027-11-05T17:53","ascendant"],["2027-11-19T09:33","descendant"],["2027-12-02T20:37","ascendant"],["2027-12-16T13:19","descendant"],["2027-12-30T01:50","ascendant"],["2028-01-12T22:26","descendant"],["2028-01-26T08:30","ascendant"],["2028-02-09T09:56","descendant"],["2028-02-22T14:10","ascendant"]],"a":[["2026-07-13T09:50","perigee"],["2026-07-25T18:37","apogee"],["2026-08-10T13:10","perigee"],["2026-08-22T10:16","apogee"],["2026-09-06T22:34","perigee"],["2026-09-19T05:00","apogee"],["2026-10-01T22:59","perigee"],["2026-10-17T00:58","apogee"],["2026-10-28T19:13","perigee"],["2026-11-13T18:57","apogee"],["2026-11-25T22:08","perigee"],["2026-12-11T07:58","apogee"],["2026-12-24T09:37","perigee"],["2027-01-07T09:24","apogee"],["2027-01-21T22:54","perigee"],["2027-02-03T14:41","apogee"],["2027-02-19T08:38","perigee"],["2027-03-03T06:45","apogee"],["2027-03-19T05:36","perigee"],["2027-03-31T03:34","apogee"],["2027-04-14T02:36","perigee"],["2027-04-27T23:20","apogee"],["2027-05-09T22:00","perigee"],["2027-05-25T17:08","apogee"],["2027-06-06T16:46","perigee"],["2027-06-22T06:57","apogee"],["2027-07-04T22:48","perigee"],["2027-07-19T13:36","apogee"],["2027-08-02T08:18","perigee"],["2027-08-15T16:08","apogee"],["2027-08-30T17:34","perigee"],["2027-09-12T01:29","apogee"],["2027-09-27T22:03","perigee"],["2027-10-09T17:43","apogee"],["2027-10-25T07:26","perigee"],["2027-11-06T12:37","apogee"],["2027-11-19T01:18","perigee"],["2027-12-04T09:44","apogee"],["2027-12-16T03:33","perigee"],["2028-01-01T04:59","apogee"],["2028-01-13T08:52","perigee"],["2028-01-28T16:45","apogee"],["2028-02-10T21:01","perigee"],["2028-02-24T17:44","apogee"]]};
 
