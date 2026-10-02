@@ -49,6 +49,17 @@ p.section-sous{color:var(--ink-muted);font-size:13px;margin-bottom:18px}
 .carte .etiq{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
 .carte h3{font-family:var(--serif);font-size:22px;font-weight:600;margin:5px 0 5px;line-height:1.15}
 .carte p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+
+.carte-liens{cursor:default}
+.carte-liens:hover{transform:none;box-shadow:var(--shadow-sm)}
+.carte-liens .souslien{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:9px;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:var(--paper);
+  font-size:13.5px;font-weight:600;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s}
+.carte-liens .souslien:hover{border-color:var(--accent);background:var(--accent-light,#fff)}
+.carte-liens .souslien em{font-style:normal;color:var(--accent);font-weight:700}
+.carte-liens .acces-note{margin-top:11px;font-size:13px;color:var(--ink-muted)}
+.carte-liens .etapes{margin:12px 0 4px;padding-left:19px;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.carte-liens .etapes li{padding:2px 0}
 .carte .cle{display:inline-block;margin-top:6px;font-size:11.5px;color:var(--ink-muted);border-left:2px solid var(--line-strong);padding-left:7px}
 .carte .fleche{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:var(--accent)}
 .carte.action{grid-column:1/-1;background:linear-gradient(135deg,var(--accent-light) 0%,var(--paper) 72%)}
@@ -154,10 +165,20 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
     <span class="fleche">Ouvrir →</span>
   </a>
 
-  <a class="carte" style="--accent:var(--sarcelle)" href="https://sfrbt1009862.sharepoint.com/:f:/g/vinom/IgAHelnIjNhsRJ0-mHeGNC1GAR13o2LHTmBHlVbwvICA1-I?e=7EANcD" target="_blank" rel="noopener">
+  <div class="carte carte-liens" style="--accent:var(--sarcelle)">
     <span class="etiq">SharePoint</span>
     <h3>Cartes VINOM</h3>
-    <p>Les cartes des vins par établissement, à jour. <span class="cle">Connexion Microsoft 365 requise</span></p>
+    <p>Les documents de référence du réseau. <span class="cle">Connexion Microsoft 365 requise</span></p>
+    <a class="souslien" href="https://sfrbt1009862.sharepoint.com/:f:/g/vinom/IgAHelnIjNhsRJ0-mHeGNC1GAR13o2LHTmBHlVbwvICA1-I?e=7EANcD" target="_blank" rel="noopener">
+      Cartes des vins par établissement <em>→</em></a>
+    <a class="souslien" href="https://sfrbt1009862.sharepoint.com/:b:/g/vinom/IQBeLvCq2BNfSZ7Vg2beaDbbAduDxDM_7YT9mmxIDNrlxTI?e=lNgkCV" target="_blank" rel="noopener">
+      Nos maisons et domaines partenaires <em>→</em></a>
+  </div>
+
+  <a class="carte" style="--accent:var(--green)" href="https://nobullshitdrinks.github.io/vinom-challenges/">
+    <span class="etiq">Primes fournisseurs</span>
+    <h3>Challenges et incentives</h3>
+    <p>Les opérations fournisseurs qui rapportent : primes par nouveau client, cartes cadeaux, paliers. Conditions et dates d'encaissement.</p>
     <span class="fleche">Ouvrir →</span>
   </a>
 
@@ -203,6 +224,19 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
     <span class="fleche">Ouvrir →</span>
   </a>
 
+  <div class="carte carte-liens action" style="--accent:var(--blue);--accent-light:var(--blue-light)">
+    <span class="etiq">Carte géographique</span>
+    <h3>Vos clients et vos prospects sur une carte</h3>
+    <p>Visualisez votre secteur d'un coup d'œil : où sont vos clients, quels prospects se trouvent juste à côté, et comment enchaîner vos rendez-vous sans faire trois fois le même trajet. De quoi préparer une tournée en quelques minutes.</p>
+    <p class="acces-note">Aucun compte à créer, l'accès se fait par un code envoyé sur votre adresse e-mail :</p>
+    <ol class="etapes">
+      <li>Saisissez votre adresse e-mail</li>
+      <li>Vous recevez un code à 6 chiffres envoyé par Cloudflare — <strong>pensez à regarder vos spams</strong></li>
+      <li>Vous arrivez sur la carte</li>
+    </ol>
+    <a class="souslien" href="https://vinom-carte.pages.dev/" target="_blank" rel="noopener">Ouvrir la carte <em>→</em></a>
+  </div>
+
   <a class="carte action" style="--accent:var(--blue);--accent-light:var(--blue-light)" href="https://nobullshitdrinks.github.io/vinom-events/#signal">
     <span class="etiq">À votre initiative</span>
     <h3>Proposer une tournée ou une venue de vigneron</h3>
@@ -238,7 +272,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-si
 </p>
 
 <footer>
-  Portail VINOM · v1.1 · 26 août 2026 — Aqua Architect Advisory pour VINOM SAS, 13 bd des Batignolles, 75008 Paris.<br>
+  Portail VINOM · v1.3 · 2 octobre 2026 — Aqua Architect Advisory pour VINOM SAS, 13 bd des Batignolles, 75008 Paris.<br>
   Une page manque, un lien est cassé, un document est à ajouter ? Écrivez à <a href="mailto:a.durand@vinom.fr" style="color:var(--blue)">a.durand@vinom.fr</a>.<br>
   Données lunaires précalculées jusqu'au 1<sup>er</sup> mars 2028.
 </footer>
